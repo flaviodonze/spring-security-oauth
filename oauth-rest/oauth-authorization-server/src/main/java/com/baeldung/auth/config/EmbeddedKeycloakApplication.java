@@ -2,8 +2,12 @@ package com.baeldung.auth.config;
 
 import java.util.NoSuchElementException;
 
+import javax.servlet.ServletContext;
+
 import org.keycloak.Config;
+import org.keycloak.common.util.Resteasy;
 import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.representations.idm.RealmRepresentation;
 import org.keycloak.services.managers.ApplianceBootstrap;
 import org.keycloak.services.managers.RealmManager;
@@ -22,16 +26,20 @@ public class EmbeddedKeycloakApplication extends KeycloakApplication {
 	private static final Logger LOG = LoggerFactory.getLogger(EmbeddedKeycloakApplication.class);
 
 	static KeycloakServerProperties keycloakServerProperties;
-	
+
 	protected void loadConfig() {
-        JsonConfigProviderFactory factory = new RegularJsonConfigProviderFactory();
+		JsonConfigProviderFactory factory = new RegularJsonConfigProviderFactory();
         Config.init(factory.create()
             .orElseThrow(() -> new NoSuchElementException("No value present")));
-    }
+	}
 
 	public EmbeddedKeycloakApplication() {
 
 		super();
+		// https://github.com/keycloak/keycloak/commit/35f622f48eda1a054efcd56fafe0ede9f8686b75
+		// https://github.com/keycloak/keycloak/blob/35f622f48eda1a054efcd56fafe0ede9f8686b75/testsuite/utils/src/main/java/org/keycloak/testsuite/TestPlatform.java
+		ServletContext context = Resteasy.getContextData(ServletContext.class);
+		context.setAttribute(KeycloakSessionFactory.class.getName(), KeycloakApplication.getSessionFactory());
 
 		createMasterRealmAdminUser();
 

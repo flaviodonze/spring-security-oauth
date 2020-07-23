@@ -1,66 +1,45 @@
 {
 	"hostname": {
-		"provider": "request",
-		"fixed": {
-			"hostname": "${keycloak.override.hostname:localhost}",
-			"httpPort": "${keycloak.override.httpPort:-1}",
-			"httpsPort": "${keycloak.override.httpsPort:-1}"
+		"provider": "${keycloak.hostname.provider:}",
+		"default": {
+			"frontendUrl": "${keycloak.frontendUrl:}",
+			"adminUrl": "${keycloak.adminUrl:}",
+			"forceBackendUrlToFrontendUrl": "${keycloak.hostname.default.forceBackendUrlToFrontendUrl:}"
 		}
-	},
-	"admin": {
-		"realm": "master"
 	},
 	"eventsStore": {
-		"provider": "${keycloak.eventsStore.provider:jpa}",
-		"jpa": {
-			"exclude-events": [
-				"REFRESH_TOKEN"
-			]
-		}
-	},
-	"eventsListener": {
-		"jboss-logging": {
-			"success-level": "debug",
-			"error-level": "warn"
-		}
+		"provider": "${keycloak.eventsStore.provider:}"
 	},
 	"realm": {
-		"provider": "${keycloak.realm.provider:jpa}"
+		"provider": "${keycloak.realm.provider:}"
+	},
+	"client": {
+		"provider": "${keycloak.client.provider:jpa}"
+	},
+	"mapStorage": {
+		"provider": "${keycloak.mapStorage.provider:concurrenthashmap}",
+		"concurrenthashmap": {
+			"dir": "${project.build.directory:target}"
+		}
 	},
 	"user": {
-		"provider": "${keycloak.user.provider:jpa}"
+		"provider": "${keycloak.user.provider:}"
 	},
 	"userFederatedStorage": {
-		"provider": "${keycloak.userFederatedStorage.provider:jpa}"
+		"provider": "${keycloak.userFederatedStorage.provider:}"
 	},
 	"userSessionPersister": {
-		"provider": "${keycloak.userSessionPersister.provider:jpa}"
+		"provider": "${keycloak.userSessionPersister.provider:}"
 	},
 	"authorizationPersister": {
-		"provider": "${keycloak.authorization.provider:jpa}"
-	},
-	"userCache": {
-		"default": {
-			"enabled": true
-		}
-	},
-	"timer": {
-		"provider": "basic"
+		"provider": "${keycloak.authorization.provider:}"
 	},
 	"theme": {
-		"staticMaxAge": "${keycloak.theme.staticMaxAge:2592000}",
-		"cacheTemplates": "${keycloak.theme.cacheTemplates:true}",
-		"cacheThemes": "${keycloak.theme.cacheThemes:true}",
+		"staticMaxAge": "${keycloak.theme.staticMaxAge:}",
+		"cacheTemplates": "${keycloak.theme.cacheTemplates:}",
+		"cacheThemes": "${keycloak.theme.cacheThemes:}",
 		"folder": {
 			"dir": "${keycloak.theme.dir}"
-		}
-	},
-	"scheduled": {
-		"interval": 900
-	},
-	"connectionsHttpClient": {
-		"default": {
-			
 		}
 	},
 	"connectionsJpa": {
@@ -74,14 +53,9 @@
 			"password": "${keycloak.connectionsJpa.password:}",
 			"initializeEmpty": true,
 			"migrationStrategy": "update",
-			"showSql": "${keycloak.connectionsJpa.showSql:false}",
-			"formatSql": "${keycloak.connectionsJpa.formatSql:true}",
-			"globalStatsInterval": "${keycloak.connectionsJpa.globalStatsInterval:-1}"
-		}
-	},
-	"realmCache": {
-		"default": {
-			"enabled": true
+			"showSql": "${keycloak.connectionsJpa.showSql:}",
+			"formatSql": "${keycloak.connectionsJpa.formatSql:}",
+			"globalStatsInterval": "${keycloak.connectionsJpa.globalStatsInterval:}"
 		}
 	},
 	"connectionsInfinispan": {
@@ -89,13 +63,16 @@
 			"embedded": "true"
 		}
 	},
-	"scripting": {
-		
-	},
+	"scripting": {},
 	"jta-lookup": {
-		"provider": "${keycloak.jta.lookup.provider:jboss}",
-		"jboss": {
-			"enabled": true
+		"provider": "${keycloak.jta.lookup.provider:}"
+	},
+	"login-protocol": {
+		"saml": {
+			"knownProtocols": [
+				"http=${auth.server.http.port}",
+				"https=${auth.server.https.port}"
+			]
 		}
 	}
 }

@@ -68,7 +68,24 @@
             <version>${keycloak.version}</version>
             <type>pom</type>
         </dependency>
-        
+
+<!-- otherwise keycloak uses wrong version  -->
+<dependency>
+    <groupId>org.infinispan</groupId>
+    <artifactId>infinispan-commons</artifactId>
+    <version>10.1.8.Final</version>
+</dependency>
+<dependency>
+    <groupId>org.infinispan</groupId>
+    <artifactId>infinispan-core</artifactId>
+    <version>10.1.8.Final</version>
+</dependency>
+<dependency>
+    <groupId>org.infinispan</groupId>
+    <artifactId>infinispan-cachestore-remote</artifactId>
+    <version>10.1.8.Final</version>
+</dependency>
+
         <!-- config properties processor -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -118,10 +135,10 @@
     <properties>
         <!-- non-dependencies -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>13</java.version>
+        <java.version>14</java.version>
 
-        <keycloak.version>10.0.1</keycloak.version>
-        <resteasy.version>3.11.2.Final</resteasy.version>
+		<keycloak.version>11.0.0</keycloak.version>
+        <resteasy.version>3.12.1.Final</resteasy.version>
     </properties>
 
 </project>
